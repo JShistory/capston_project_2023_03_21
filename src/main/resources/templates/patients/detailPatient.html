@@ -1,0 +1,44 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>DTX-eye</title>
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/css/calendar.css">
+</head>
+<body>
+<header>
+    <div class="header_frame">DTX-eye</div>
+</header>
+<div class="main_frame">
+    <form th:object="${form}" class="form-inline">
+        <div class=data_frame th:text="|*{patientName}(*{gender}) 생년월일: *{birthday} 교정 시간|"></div>
+
+    </form>
+
+    <div class="calender_frame">
+        <div class="sec_cal">
+            <div class="cal_nav">
+                <a href="javascript:;" class="nav-btn move-prev">prev</a>
+                <div class="year-month"></div>
+                <a href="javascript:;" class="nav-btn move-next">next</a>
+            </div>
+            <div class="cal_wrap">
+                <div class="days">
+                    <div class="day">SUN</div>
+                    <div class="day">MON</div>
+                    <div class="day">TUE</div>
+                    <div class="day">WED</div>
+                    <div class="day">THU</div>
+                    <div class="day">FRI</div>
+                    <div class="day">SAT</div>
+                </div>
+                <div class="nav-btn dates"></div>
+            </div>
+        </div>
+    </div>
+    <div class="pie_graph_frame"></div>
+    <div class="time_graph_frame"></div>
+</div>
+<script type="text/javascript" src="/js/main.js"></script>
+</body>
+</html>
