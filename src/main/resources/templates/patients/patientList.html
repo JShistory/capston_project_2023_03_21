@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header"/>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-<link rel="stylesheet" type="text/css" href="/css/main.css">
+
 <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="/css/bootstrap-grid.css">
 <link rel="stylesheet" type="text/css" href="/css/bootstrap-reboot.css">
@@ -32,6 +32,11 @@
                 <th>생년월일</th>
                 <th>보호자 전화번호</th>
                 <th>성별</th>
+                <th>착용한 시간</th>
+                <th>착용해야 하는 시간</th>
+                <th>착용한 날</th>
+                <th>착용해야 하는 날</th>
+
                 <th>메뉴</th>
                 <th></th>
             </tr>
@@ -50,6 +55,11 @@
                 <td th:text="${patient.birthday}"></td>
                 <td th:text="${patient.getGuardianPhoneNumber()}"></td>
                 <td th:text="${patient.getGender()}"></td>
+                <td th:text="${patient.getWearingTime()}"></td>
+                <td th:text="${patient.getCorrectionTime()}"></td>
+                <td th:text="${patient.getWearingDay()}"></td>
+                <td th:text="${patient.getCorrectionDay()}"></td>
+
                 <td>
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" style="background-color: #3c6ffa" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" >

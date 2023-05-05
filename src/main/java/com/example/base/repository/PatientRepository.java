@@ -53,10 +53,9 @@ public class PatientRepository{
             } else {
                 jpql += " and";
             }
-            jpql += " p.patientName like '%'||:patientName||'%'";
-            jpql += OrderBy p.patientName
-        }
+            jpql += " p.patientName like '%'||:patientName||'%' ORDER BY p.patientName ASC, p.birthday ASC" ;
 
+        }
         if (StringUtils.hasText(patientSearch.getBirthday())) {
             if (isFirstCondition) {
                 jpql += " where";

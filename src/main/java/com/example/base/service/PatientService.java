@@ -22,13 +22,17 @@ public class PatientService {
     }
 
     @Transactional
-    public void updatePatient(Long PatientId, String name, String birthday, String gender, String gurdianPhoneNumber){
+    public void updatePatient(Long PatientId, String name, String birthday, String gender, String gurdianPhoneNumber, Long correctionTime,Long wearingTime, Long correctionDay, Long wearingDay){
         Patient findPatient = patientRepository.findOne(PatientId);
 
         findPatient.setPatientName(name);
         findPatient.setBirthday(birthday);
         findPatient.setGender(gender);
+        findPatient.setCorrectionTime(correctionTime);
         findPatient.setGuardianPhoneNumber(gurdianPhoneNumber);
+        findPatient.setCorrectionDay(correctionDay);
+        findPatient.setWearingDay(wearingDay);
+        findPatient.setWearingTime(wearingTime);
     }
 
     public List<Patient> findPatients(PatientSearch patientSearch){
