@@ -1,3 +1,4 @@
+
 /* section calendar */
 
 .sec_cal {
@@ -70,7 +71,7 @@
 
 .sec_cal .cal_wrap .days {
     display: flex;
-    margin-bottom: 10px;
+    margin-bottom: 1px;
     padding-bottom: 10px;
     border-bottom: 1px solid #ddd;
 }
@@ -81,14 +82,14 @@
 
 .sec_cal .cal_wrap .day {
     display:flex;
-    align-items: center;
+    /*align-items: center;*/
     justify-content: center;
     width: calc(100% / 7);
     color: #999;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: bold;
     text-align: center;
-    border-radius:5px
+    border-radius:5px;
 }
 body {
     font-family: 'Montserrat', sans-sherif;
@@ -169,12 +170,16 @@ body {
 .card:nth-child(2) svg circle:last-of-type {
     stroke: #F5D0A9;
 }
-.current.select_day {background: rgb(222 222 222);}
+.current.select_day {outline: 3px solid #ddd;}
 
 .sec_cal .cal_wrap .dates {
     display: flex;
     flex-flow: wrap;
     height: 350px;
+}
+.day {
+    padding-top: 5px;
+    position: relative;
 }
 
 .sec_cal .cal_wrap .day:nth-child(7n) {
@@ -189,3 +194,34 @@ body {
     color: #ddd;
 }
 
+.progress-container {
+    margin: 0px;
+    width: 90%;
+    height: 20%;
+    top: 77%;
+    border-radius: 3px;
+    position: absolute;
+    overflow: clip;
+}
+.progress-bar {
+    height: 100%;
+    float:left;
+    display: inline-block;
+    font-size: 0;
+    background-size: cover;
+}
+.split-bar {
+    width: 5%;
+    float:left;
+    display: inline-block;
+    height: 100%;
+    font-size: 1px;
+}
+.percent-text {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    top: 50%;
+    position: absolute;
+}
