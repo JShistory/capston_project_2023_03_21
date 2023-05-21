@@ -1,3 +1,4 @@
+
 * {
     margin: 0;
     padding: 0;
@@ -20,7 +21,7 @@
 .main_frame {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     background-color: rgba(255, 255, 255, 1);
-    width: 1200px;
+    width: 1700px;
     height: 800px;
     position: absolute;
     left: 120px;
@@ -29,19 +30,8 @@
     border-radius: 40px;
     border: 3px solid rgba(238, 202, 166, 1);
 }
-.add{
-    display: flex;
-    justify-content: center;
-}
-.container{
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border: 1px solid rgba(238, 202, 166, 1);
 
-}
-tr{
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border: 1px solid rgba(238, 202, 166, 1);
-}
+
 .data_frame {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     background-color: rgba(255, 255, 255, 1);
@@ -73,8 +63,10 @@ tr{
 
 .pie_graph_frame {
     background-color: rgba(255, 255, 255, 1);
-    width: 554px;
-    height: 262px;
+    display: flex;
+    justify-content: center;
+    width: 600px;
+    height: 400px;
     position: absolute;
     left: 625px;
     top: 20px;

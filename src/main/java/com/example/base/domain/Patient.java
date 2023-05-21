@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,7 +32,10 @@ public class Patient {
     private String gender;
     private String phoneNumber;
     private String guardianPhoneNumber;
-
+    private Long correctionTime;
+    private Long wearingTime;
+    private Long correctionDay;
+    private Long wearingDay;
 
 
 }

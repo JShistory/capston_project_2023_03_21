@@ -30,13 +30,18 @@ public class PatientController {
     public String create(@Valid @ModelAttribute("form") PatientForm patientForm, BindingResult result){
 
         if(result.hasErrors()){
+            System.out.println(result.getAllErrors());
             return "patients/createPatientForm";
         }
 
         Patient patient = new Patient();
         patient.setPatientName(patientForm.getName());
         patient.setBirthday(patientForm.getBirthday());
-        patient.setGender(patientForm.getGender());;
+        patient.setGender(patientForm.getGender());
+        patient.setCorrectionTime(patientForm.getCorrectionTime());
+        patient.setWearingTime(patientForm.getWearingTime());
+        patient.setCorrectionDay(patientForm.getCorrectionDay());
+        patient.setWearingDay(patientForm.getWearingDay());
         patient.setGuardianPhoneNumber(patientForm.getGuardianPhoneNumber());
 
         patientService.createPatient(patient);
@@ -68,6 +73,7 @@ public class PatientController {
 
     @GetMapping("patients/{patientId}/edit")
     public String updateItemForm(@PathVariable("patientId") Long patientId, Model model){
+
         Patient patient = patientService.findOne(patientId);
 
         PatientForm form = new PatientForm();
@@ -75,6 +81,10 @@ public class PatientController {
         form.setName(patient.getPatientName());
         form.setBirthday(patient.getBirthday());
         form.setGuardianPhoneNumber(patient.getGuardianPhoneNumber());
+        form.setCorrectionTime(patient.getCorrectionTime());
+        form.setWearingTime(patient.getWearingTime());
+        form.setCorrectionDay(patient.getCorrectionDay());
+        form.setWearingDay(patient.getWearingDay());
         form.setGender(patient.getGender());
 
         model.addAttribute("form", form);
@@ -82,7 +92,7 @@ public class PatientController {
     }
 
     @PostMapping("patients/{patientId}/edit")
-    public String updateItem(@PathVariable Long patientId, @ModelAttribute("form") PatientForm form){
+    public String updateItem(@Valid @PathVariable Long patientId, @ModelAttribute("form") PatientForm form,BindingResult result){
 //        Book book = new Book();
 //        book.setIsbn(form.getIsbn());
 //        book.setId(form.getId());
@@ -91,8 +101,11 @@ public class PatientController {
 //        book.setStockQuantity(form.getStockQuantity());
 //        book.setAuthor(form.getAuthor());
 //        book.setIsbn(form.getIsbn());
-
-        patientService.updatePatient(patientId,form.getName(),form.getBirthday(),form.getGender(),form.getGuardianPhoneNumber());
+        if(result.hasErrors()){
+            return "patients/updatePatientForm";
+        }
+        patientService.updatePatient(patientId,form.getName(),form.getBirthday(),form.getGender(),form.getGuardianPhoneNumber(),
+                form.getCorrectionTime(),form.getWearingTime(),form.getCorrectionDay(),form.getWearingDay());
         return "redirect:/patients";
     }
 
