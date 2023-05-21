@@ -2,7 +2,8 @@
 - 의사 관리자 웹 페이지 만들기
 
 - H2 database
-- Spring Boot
+- Spring Boot 2.4.1
+- java 11
 
 
 - 프로토타입 
