@@ -32,8 +32,7 @@ public class User {
 //    @Column(name = "password", nullable = false)
 //    private String password;
     @Enumerated(EnumType.STRING)
-    @Column
-    @NotEmpty
+    @Column(name = "role", nullable = false)
     private Role role;
 
     @Builder
