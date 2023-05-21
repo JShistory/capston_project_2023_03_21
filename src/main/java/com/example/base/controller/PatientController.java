@@ -1,9 +1,11 @@
 package com.example.base.controller;
 
 import com.example.base.domain.Patient;
+import com.example.base.domain.SessionUser;
 import com.example.base.repository.PatientSearch;
 import com.example.base.service.PatientService;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -49,7 +51,15 @@ public class PatientController {
     }
 
     @GetMapping("/patients")
-    public String patientsList(@ModelAttribute("patientSearch")PatientSearch patientSearch, Model model){
+    public String patientsList(@ModelAttribute("patientSearch")PatientSearch patientSearch, Model model,
+                               HttpSession httpSession){
+        SessionUser user = (SessionUser)httpSession.getAttribute("user");
+        if(user != null) {
+            model.addAttribute("userName", user.getName());
+            model.addAttribute("userEmail", user.getEmail());
+            model.addAttribute("userRole", user.getRole());
+
+        }
         List<Patient> patients = patientService.findPatients(patientSearch);
         model.addAttribute("patients", patients);
         System.out.println(patients);

@@ -1,6 +1,8 @@
-package com.example.dtxeyelogin2.dto;
+package com.example.base.security;
 
-import com.example.dtxeyelogin2.dto.eums.Role;
+
+import com.example.base.domain.Role;
+import com.example.base.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
