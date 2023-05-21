@@ -1,12 +1,12 @@
-package com.example.dtxeyelogin2.service;
+package com.example.base.security;
 
-import com.example.dtxeyelogin2.dto.OAuthAttributes;
-import com.example.dtxeyelogin2.dto.SessionUser;
-import com.example.dtxeyelogin2.dto.User;
-import com.example.dtxeyelogin2.repository.UserRepository;
-import jakarta.servlet.http.HttpSession;
+
+import com.example.base.domain.SessionUser;
+import com.example.base.domain.User;
+import com.example.base.repository.UserRepository;
+
+import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -19,9 +19,9 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 
 /*
-* 이 코드는 Spring Security OAuth2를
-* 사용하여 사용자 인증 및 권한 부여를 처리하는 클래스를 정의하고 있다.
-* */
+ * 이 코드는 Spring Security OAuth2를
+ * 사용하여 사용자 인증 및 권한 부여를 처리하는 클래스를 정의하고 있다.
+ * */
 @Service
 @Slf4j
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {

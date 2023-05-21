@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * 기존에 임의로 만들었던 코드입니다. 무시하셔도 됩니다.
+ */
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

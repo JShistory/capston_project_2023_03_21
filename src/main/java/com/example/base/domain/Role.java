@@ -1,4 +1,4 @@
-package com.example.dtxeyelogin2.dto.eums;
+package com.example.base.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

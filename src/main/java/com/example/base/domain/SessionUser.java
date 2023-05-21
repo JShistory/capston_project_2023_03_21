@@ -1,10 +1,10 @@
-package com.example.base.security;
+package com.example.base.domain;
 
 
-import com.example.base.domain.Role;
-import com.example.base.domain.User;
 import java.io.Serializable;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
 public class SessionUser implements Serializable {
@@ -16,8 +16,8 @@ public class SessionUser implements Serializable {
      * 이 생성자는 User 객체에서 이름과 이메일 정보를 가져와서 SessionUser 객체에 저장합니다.
      */
     public SessionUser(User user) {
-        this.name = User.getName();
-        this.email = User.getEmail();
-        this.role = User.getRole();
+        this.name = user.getName();
+        this.email = user.getEmail();
+        this.role = user.getRole();
     }
 }
