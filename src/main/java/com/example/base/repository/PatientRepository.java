@@ -33,7 +33,7 @@ public class PatientRepository{
 
     public List<Patient> findAll(PatientSearch patientSearch){
         //language=JPAQL
-        String jpql = "select p From Patient p";
+        String jpql = "select p From Patient p Order by p.patientName";
         boolean isFirstCondition = true;
 //        //주문 상태 검
 //        if (patientSearch.getOrderStatus() != null) {
@@ -46,7 +46,7 @@ public class PatientRepository{
 //            jpql += " o.status = :status";
 //        }
         //회원 이름 검색
-        if (StringUtils.hasText(patientSearch.getMemberName())) {
+        if (StringUtils.hasText(patientSearch.getPatientName())) {
             if (isFirstCondition) {
                 jpql += " where";
                 isFirstCondition = false;
@@ -68,8 +68,8 @@ public class PatientRepository{
         }
         TypedQuery<Patient> query = em.createQuery(jpql, Patient.class)
                 .setMaxResults(1000); //최대 1000건
-        if (StringUtils.hasText(patientSearch.getMemberName())) {
-            query = query.setParameter("patientName", patientSearch.getMemberName());
+        if (StringUtils.hasText(patientSearch.getPatientName())) {
+            query = query.setParameter("patientName", patientSearch.getPatientName());
         }
         if (StringUtils.hasText(patientSearch.getBirthday())) {
             query = query.setParameter("birthday", patientSearch.getBirthday());

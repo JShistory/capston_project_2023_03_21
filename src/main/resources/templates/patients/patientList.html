@@ -18,7 +18,7 @@
         <div class="flex_container">
             <form th:object="${patientSearch}" class="form-inline">
                 <div class="form-group mb-2">
-                    <input type="text" th:field="*{memberName}" class="form-control" placeholder="환자이름을 입력하세요"/>
+                    <input type="text" th:field="*{patientName}" class="form-control" placeholder="환자이름을 입력하세요"/>
                 </div>
 
                 <button type="submit" class="btn btn-primary mb-2">검색</button>
@@ -55,8 +55,8 @@
 
                 <td th:text="${patient.id}"></td>
                 <td>
-                <a href="#" th:href="@{/patients/{id}/detail (id=${patient.id})}"
-                   class="btn btn-primary" role="button">정보</a>
+                    <a href="#" th:href="@{/patients/{id}/detail (id=${patient.id})}"
+                       class="btn btn-primary" role="button">정보</a>
                 </td>
                 <td th:text="${patient.getPatientName()}"></td>
                 <td th:text="${patient.birthday}"></td>
@@ -80,19 +80,19 @@
                 </td>
 
             </tr>
-<!--                <td>-->
-<!--                    <a th:if="${item.status.name() == 'ORDER'}" href="#"-->
-<!--                       th:href="'javascript:cancel('+${item.id}+')'"-->
-<!--                       class="btn btn-danger">CANCEL</a>-->
-<!--                </td>-->
+            <!--                <td>-->
+            <!--                    <a th:if="${item.status.name() == 'ORDER'}" href="#"-->
+            <!--                       th:href="'javascript:cancel('+${item.id}+')'"-->
+            <!--                       class="btn btn-danger">CANCEL</a>-->
+            <!--                </td>-->
             </tbody>
         </table>
-        </div>
-        <div class="add">
-            <a href="/patients/new" class="btn btn-primary" role="button">+</a>
-        </div>
     </div>
-    <div th:replace="fragments/footer :: footer"/>
+    <div class="add">
+        <a href="/patients/new" class="btn btn-primary" role="button">+</a>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"/>
 </div> <!-- /container -->
 </body>
 
