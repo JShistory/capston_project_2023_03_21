@@ -1,57 +1,57 @@
 .auth-template-block{
-position: absolute;
-left: 0;
-top: 0;
-right: 0;
-bottom: 0;
-background: #F5D0AB;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: #F5D0AB;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .white-box {
-box-shadow: 0 0 8px rgba(0, 0, 0, 0.025);
-padding: 2rem;
-width: 350px;
-background: white;
-border-radius: 15px;
-border: 1px solid #e9ecef;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.025);
+  padding: 2rem;
+  width: 350px;
+  background: white;
+  border-radius: 15px;
+  border: 1px solid #e9ecef;
 }
 
 .white-box .logo-area {
-display: block;
-padding-bottom: 2rem;
-text-align: center;
-font-weight: bold;
-letter-spacing: 2px;
+  display: block;
+  padding-bottom: 2rem;
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: 2px;
 }
 .btn{
-font-size: 1rem;
-border: none;
-border: 1px solid ${palette.gray[3]};
-border-radius: 0.25rem;
-padding: 0.5rem;
-padding-bottom: 0.5rem;
-outline: none;
-width: 100%;
+  font-size: 1rem;
+  border: none;
+  border: 1px solid ${palette.gray[3]};
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  padding-bottom: 0.5rem;
+  outline: none;
+  width: 100%;
 &:focus {
-  color: $oc-teal-7;
-  border: 1px solid ${palette.gray[7]};
-}
+   color: $oc-teal-7;
+   border: 1px solid ${palette.gray[7]};
+ }
 & + & {
-  margin-top: 0.5rem;
-}
+    margin-top: 0.5rem;
+  }
 }
 a1{
-color: black;
-font-size: x-large;
-border: none;
-border-radius: 0.25rem;
-padding: 0.5rem;
-padding-bottom: 0.5rem;
-outline: none;
+  color: black;
+  font-size: x-large;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  padding-bottom: 0.5rem;
+  outline: none;
 }
 /* 카카오톡 로그인 버튼 스타일 */
 .kakao-login-btn {

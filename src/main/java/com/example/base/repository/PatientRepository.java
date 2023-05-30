@@ -4,18 +4,14 @@ import com.example.base.domain.Patient;
 
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.OrderBy;
 import javax.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 @Repository
 @RequiredArgsConstructor
-public class PatientRepository{
+public class PatientRepository {
     private final EntityManager em;
 
     public void save(Patient patient){

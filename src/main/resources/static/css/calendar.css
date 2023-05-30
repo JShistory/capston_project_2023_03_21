@@ -93,7 +93,8 @@
 }
 body {
     font-family: 'Montserrat', sans-sherif;
-    background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+    /*background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);*/
+    background-color: #FBDBB3;
     background-repeat: no-repeat;
     height: 100vh;
     color: #555555;
@@ -111,9 +112,9 @@ body {
     flex-direction: column;
     background-color: #ffffff;
     margin: 0px;
-    width: 210px;
-    height: 270px;
-    border-radius: 5px;
+    width: 230px;
+    height: 280px;
+    border-radius: 20px;
     box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.2);
 }
 
@@ -224,4 +225,17 @@ body {
     text-align: center;
     top: 50%;
     position: absolute;
+}
+.example::-webkit-scrollbar {
+    width: 10px;  /* 스크롤바의 너비 */
+}
+
+.example::-webkit-scrollbar-thumb {
+    height: 30%; /* 스크롤바의 길이 */
+    background: rgba(255, 255, 255, 1); /* 스크롤바의 색상 */
+    border-radius: 10px;
+}
+
+.example::-webkit-scrollbar-track {
+    background: rgba(33, 122, 244, 1);  /*스크롤바 뒷 배경 색상*/
 }

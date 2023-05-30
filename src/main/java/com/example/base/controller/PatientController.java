@@ -60,6 +60,7 @@ public class PatientController {
             model.addAttribute("userRole", user.getRole());
 
         }
+
         List<Patient> patients = patientService.findPatients(patientSearch);
         model.addAttribute("patients", patients);
         System.out.println(patients);
