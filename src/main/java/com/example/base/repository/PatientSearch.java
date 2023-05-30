@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter @Setter
 public class PatientSearch {
-    private String memberName;
+    private String patientName;
     private String birthday;
     private Status status;
 }
