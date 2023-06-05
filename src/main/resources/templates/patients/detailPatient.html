@@ -16,11 +16,19 @@
         DTX-eye
     </div>
 </header>
+
 <div class="main_frame" >
     <form th:object="${form}" class="form-inline">
         <div class=data_frame th:text="|*{patientName}(*{gender}) 생년월일: *{birthday.replaceAll('-','/').substring(2,birthday.length())} 교정 시간 *{correctionTime}(시간) |"></div>
 
     </form>
+    <tr th:each="time : ${startList}" hidden="hidden">
+        <td th:text="${time}"></td>
+    </tr>
+
+    <tr th:each="time : ${endList}" hidden="hidden">
+        <td th:text="${time}"></td>
+    </tr>
 
     <div class="calender_frame">
         <div class="sec_cal">
