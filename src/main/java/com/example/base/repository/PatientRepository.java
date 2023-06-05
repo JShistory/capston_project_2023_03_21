@@ -33,29 +33,20 @@ public class PatientRepository{
 
     public List<Patient> findAll(PatientSearch patientSearch){
         //language=JPAQL
-        String jpql = "select p From Patient p Order by p.patientName";
+        String jpql = "select p From Patient p";
         boolean isFirstCondition = true;
-//        //주문 상태 검
-//        if (patientSearch.getOrderStatus() != null) {
-//            if (isFirstCondition) {
-//                jpql += " where";
-//                isFirstCondition = false;
-//            } else {
-//                jpql += " and";
-//            }
-//            jpql += " o.status = :status";
-//        }
-        //회원 이름 검색
-        if (StringUtils.hasText(patientSearch.getPatientName())) {
+
+        if (StringUtils.hasText(patientSearch.getPatient())) {
             if (isFirstCondition) {
                 jpql += " where";
                 isFirstCondition = false;
             } else {
                 jpql += " and";
             }
-            jpql += " p.patientName like '%'||:patientName||'%' ORDER BY p.patientName ASC, p.birthday ASC" ;
+            jpql += " p.patientName like '%'||:patientName||'%' ORDER BY p.patientName ASC, p.birthday ASC";
 
         }
+
         if (StringUtils.hasText(patientSearch.getBirthday())) {
             if (isFirstCondition) {
                 jpql += " where";
@@ -66,10 +57,11 @@ public class PatientRepository{
             jpql += " p.birthday like '%'||:birthday||";
 
         }
+
         TypedQuery<Patient> query = em.createQuery(jpql, Patient.class)
                 .setMaxResults(1000); //최대 1000건
-        if (StringUtils.hasText(patientSearch.getPatientName())) {
-            query = query.setParameter("patientName", patientSearch.getPatientName());
+        if (StringUtils.hasText(patientSearch.getPatient())) {
+            query = query.setParameter("patientName", patientSearch.getPatient());
         }
         if (StringUtils.hasText(patientSearch.getBirthday())) {
             query = query.setParameter("birthday", patientSearch.getBirthday());

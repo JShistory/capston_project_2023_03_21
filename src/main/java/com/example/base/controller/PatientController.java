@@ -2,8 +2,13 @@ package com.example.base.controller;
 
 import com.example.base.domain.Patient;
 import com.example.base.domain.SessionUser;
+import com.example.base.domain.WearableEquipment;
 import com.example.base.repository.PatientSearch;
+import com.example.base.repository.WearableEquipmentRepository;
 import com.example.base.service.PatientService;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -21,17 +26,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class PatientController {
 
     private final PatientService patientService;
+    private final WearableEquipmentRepository wearableEquipmentRepository;
 
     @GetMapping("patients/new")
-    public String createForm(Model model){
+    public String createForm(Model model) {
         model.addAttribute("form", new PatientForm());
         return "patients/createPatientForm";
     }
 
     @PostMapping("patients/new")
-    public String create(@Valid @ModelAttribute("form") PatientForm patientForm, BindingResult result){
+    public String create(@Valid @ModelAttribute("form") PatientForm patientForm, BindingResult result) {
 
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             System.out.println(result.getAllErrors());
             return "patients/createPatientForm";
         }
@@ -51,10 +57,10 @@ public class PatientController {
     }
 
     @GetMapping("/patients")
-    public String patientsList(@ModelAttribute("patientSearch")PatientSearch patientSearch, Model model,
-                               HttpSession httpSession){
-        SessionUser user = (SessionUser)httpSession.getAttribute("user");
-        if(user != null) {
+    public String patientsList(@ModelAttribute("patientSearch") PatientSearch patientSearch, Model model,
+                               HttpSession httpSession) {
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if (user != null) {
             model.addAttribute("userName", user.getName());
             model.addAttribute("userEmail", user.getEmail());
             model.addAttribute("userRole", user.getRole());
@@ -69,21 +75,36 @@ public class PatientController {
 
     @GetMapping("patients/{patientId}/delete")
     public String deletePatients(@PathVariable("patientId") Long patientId,
-                                 Model model){
+                                 Model model) {
         patientService.delete(patientId);
         return "redirect:/patients";
     }
 
     @GetMapping("patients/{patientId}/detail")
-    public String detailForm(@PathVariable("patientId") Long patientId, Model model){
+    public String detailForm(@PathVariable("patientId") Long patientId, Model model) {
+        List<WearableEquipment> all = wearableEquipmentRepository.findAll();
+
+        List<String> startList = new ArrayList<>();
+        List<String> endList = new ArrayList<>();
+        for (WearableEquipment wearableEquipment : all) {
+            if (wearableEquipment.getPatient().getId() == patientId) {
+//                Duration duration = Duration.between(wearableEquipment.getStartTime(), wearableEquipment.getEndTime());
+                startList.add(wearableEquipment.getStartTime());
+                endList.add(wearableEquipment.getEndTime());
+            }
+        }
+
         Patient patient = patientService.findOne(patientId);
+
+        model.addAttribute("startList", startList);
+        model.addAttribute("endList", endList);
         model.addAttribute("form", patient);
         return "patients/detailPatient";
     }
 
 
     @GetMapping("patients/{patientId}/edit")
-    public String updateItemForm(@PathVariable("patientId") Long patientId, Model model){
+    public String updateItemForm(@PathVariable("patientId") Long patientId, Model model) {
 
         Patient patient = patientService.findOne(patientId);
 
@@ -103,7 +124,8 @@ public class PatientController {
     }
 
     @PostMapping("patients/{patientId}/edit")
-    public String updateItem(@Valid @PathVariable Long patientId, @ModelAttribute("form") PatientForm form,BindingResult result){
+    public String updateItem(@Valid @PathVariable Long patientId, @ModelAttribute("form") PatientForm form,
+                             BindingResult result) {
 //        Book book = new Book();
 //        book.setIsbn(form.getIsbn());
 //        book.setId(form.getId());
@@ -112,13 +134,32 @@ public class PatientController {
 //        book.setStockQuantity(form.getStockQuantity());
 //        book.setAuthor(form.getAuthor());
 //        book.setIsbn(form.getIsbn());
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             return "patients/updatePatientForm";
         }
-        patientService.updatePatient(patientId,form.getName(),form.getBirthday(),form.getGender(),form.getGuardianPhoneNumber(),
-                form.getCorrectionTime(),form.getWearingTime(),form.getCorrectionDay(),form.getWearingDay());
+        patientService.updatePatient(patientId, form.getName(), form.getBirthday(), form.getGender(),
+                form.getGuardianPhoneNumber(),
+                form.getCorrectionTime(), form.getWearingTime(), form.getCorrectionDay(), form.getWearingDay());
         return "redirect:/patients";
     }
 
+    @GetMapping("patients/time")
+    public String timeList(Model model) {
+        List<WearableEquipment> all = wearableEquipmentRepository.findAll();
 
+        List<String> startList = new ArrayList<>();
+        List<String> endList = new ArrayList<>();
+        for (WearableEquipment wearableEquipment : all) {
+            if (wearableEquipment.getPatient().getId() == 1L) {
+//                Duration duration = Duration.between(wearableEquipment.getStartTime(), wearableEquipment.getEndTime());
+                startList.add(wearableEquipment.getStartTime());
+                endList.add(wearableEquipment.getEndTime());
+            }
+        }
+
+
+        model.addAttribute("startList", startList);
+        model.addAttribute("endList", endList);
+        return "members/time";
+    }
 }
