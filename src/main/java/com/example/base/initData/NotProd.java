@@ -42,23 +42,23 @@ public class NotProd {
             Patient patient4 = createPatient("김길성", "1967-02-22", "남자", "010-1111-2222", 200L, 1L, 50L, 20L,4);
             em.persist(patient4);
 
-            createTime(patient1, "202305011200","202305011300");
-            createTime(patient1, "202305011300","202305011400");
-            createTime(patient1, "202305011500","202305011700");
-
-            createTime(patient2, "202305011200","202305011300");
-            createTime(patient2, "202305011300","202305011400");
-            createTime(patient2, "202305011500","202305011700");
-
-            createTime(patient1, "202305021200","202305021300");
-            createTime(patient1, "202305021300","202305021400");
-            createTime(patient1, "202305021500","202305021700");
-
-            createTime(patient2, "202305021300","202305021400");
-
-            createTime(patient1, "202305031200","202305031300");
-            createTime(patient1, "202305031300","202305031400");
-            createTime(patient1, "202305031500","202305031700");
+//            createTime(patient1, "202305011200","202305011300");
+//            createTime(patient1, "202305011300","202305011400");
+//            createTime(patient1, "202305011500","202305011700");
+//
+//            createTime(patient2, "202305011200","202305011300");
+//            createTime(patient2, "202305011300","202305011400");
+//            createTime(patient2, "202305011500","202305011700");
+//
+//            createTime(patient1, "202305021200","202305021300");
+//            createTime(patient1, "202305021300","202305021400");
+//            createTime(patient1, "202305021500","202305021700");
+//
+//            createTime(patient2, "202305021300","202305021400");
+//
+//            createTime(patient1, "202305031200","202305031300");
+//            createTime(patient1, "202305031300","202305031400");
+//            createTime(patient1, "202305031500","202305031700");
 
             createTime(patient2, "202305031200","202305031300");
             createTime(patient2, "202305031300","202305031400");
