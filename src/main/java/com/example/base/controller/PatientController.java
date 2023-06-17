@@ -124,6 +124,8 @@ public class PatientController {
         double correctDay = 0;
         //착용 해야 하는 시간
         double correctTime = 0;
+        //환자가 실제 착용한 시간
+        double wearableTimeAmount = 0;
 
         List<String> startList = new ArrayList<>();
         List<String> endList = new ArrayList<>();
@@ -155,17 +157,26 @@ public class PatientController {
                     timeMap.put(start.getDayOfYear(),
                             (int) (timeMap.getOrDefault(start.getDayOfYear(), 0) + duration.getSeconds() / 60 / 60));
                     //시간을 기준으로
-                    wearableTime += duration.getSeconds() / 60 / 60;
+                    wearableTimeAmount += duration.getSeconds() / 60 / 60;
 
 
                 }
 
             }
 
+
+
             //교정시간에 80%이상 착용했다면 1일 추가
+            //교정시간에 80%이상
             for (Integer data : timeMap.keySet()) {
                 if (timeMap.get(data) >= patient.getTimeToWear() * PATIENT_PERCENT) {
                     wearableDay += 1;
+                }
+                if(timeMap.get(data) > patient.getTimeToWear()){
+                    wearableTime += patient.getTimeToWear();
+                }
+                else{
+                    wearableTime += timeMap.get(data);
                 }
             }
 
@@ -187,6 +198,7 @@ public class PatientController {
             model.addAttribute("wearableTime", (long) wearableTime);
             model.addAttribute("timeResult", timeResult);
             model.addAttribute("dayResult", dayResult);
+
 
         }
 
