@@ -35,6 +35,7 @@ public class PatientController {
     private final PatientRepository patientRepository;
     private final WearableEquipmentRepository wearableEquipmentRepository;
 
+    private double PATIENT_PERCENT = 0.8;
 
     @GetMapping("patients/new")
     public String createForm(Model model) {
@@ -155,13 +156,15 @@ public class PatientController {
                             (int) (timeMap.getOrDefault(start.getDayOfYear(), 0) + duration.getSeconds() / 60 / 60));
                     //시간을 기준으로
                     wearableTime += duration.getSeconds() / 60 / 60;
+
+
                 }
 
             }
 
             //교정시간에 80%이상 착용했다면 1일 추가
             for (Integer data : timeMap.keySet()) {
-                if (timeMap.get(data) >= patient.getTimeToWear() * 0.8) {
+                if (timeMap.get(data) >= patient.getTimeToWear() * PATIENT_PERCENT) {
                     wearableDay += 1;
                 }
             }
@@ -177,7 +180,7 @@ public class PatientController {
             }
 
             timeResult = Math.round((wearableTime / correctTime) * 100);
-            dayResult = Math.round(((double) wearableDay / patient.getCorrectionDay()) * 100);
+            dayResult = Math.round(((double) wearableDay / correctDay) * 100);
 
             model.addAttribute("form", patient);
             model.addAttribute("wearableDay", wearableDay);
@@ -188,8 +191,8 @@ public class PatientController {
         }
 
         patientService.updatePatient(patientId, patient.getPatientName(), patient.getBirthday(),
-                patient.getGender(), patient.getGuardianPhoneNumber(), patient.getCorrectionTime(), (long) wearableTime,
-                patient.getCorrectionDay(), (long) wearableDay, patient.getTimeToWear());
+                patient.getGender(), patient.getGuardianPhoneNumber(), (long) correctTime, (long) wearableTime,
+                (long) correctDay, (long) wearableDay, patient.getTimeToWear());
         return "patients/detailPatient";
     }
 
