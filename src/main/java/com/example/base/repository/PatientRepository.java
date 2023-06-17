@@ -4,12 +4,8 @@ import com.example.base.domain.Patient;
 
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.OrderBy;
 import javax.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -68,5 +64,14 @@ public class PatientRepository{
         }
 
         return query.getResultList();
+    }
+
+    public List<Patient> findAll(){
+        return em.createQuery("select m from Patient m", Patient.class)
+                .getResultList();
+    }
+
+    public List<Patient> findWearable(){
+        return em.createQuery("select m from Patient as m join m.wearableEquipment", Patient.class).getResultList();
     }
 }

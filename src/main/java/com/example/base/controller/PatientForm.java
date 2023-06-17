@@ -29,5 +29,8 @@ public class PatientForm {
     private Long correctionDay;
     @Positive(message = "0은 안돼요")
     private Long wearingDay;
+    @Positive(message = "0은 안돼요")
+    private int timeToWear;
+
 
 }

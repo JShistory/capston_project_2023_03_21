@@ -1,6 +1,7 @@
 package com.example.base.domain;
 
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,8 +35,9 @@ public class Patient {
     private Long wearingTime;
     private Long correctionDay;
     private Long wearingDay;
+    private int timeToWear;
 
-    @OneToMany(mappedBy = "patient")
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE)
     private List<WearableEquipment> wearableEquipment;
 
 

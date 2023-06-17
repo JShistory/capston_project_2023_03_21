@@ -22,7 +22,7 @@ public class PatientService {
 
     @Transactional
     public void updatePatient(Long PatientId, String name, String birthday, String gender, String gurdianPhoneNumber,
-                              Long correctionTime, Long wearingTime, Long correctionDay, Long wearingDay) {
+                              Long correctionTime, Long wearingTime, Long correctionDay, Long wearingDay, int timeToWear) {
         Patient findPatient = patientRepository.findOne(PatientId);
 
         findPatient.setPatientName(name);
@@ -33,6 +33,7 @@ public class PatientService {
         findPatient.setCorrectionDay(correctionDay);
         findPatient.setWearingDay(wearingDay);
         findPatient.setWearingTime(wearingTime);
+        findPatient.setTimeToWear(timeToWear);
     }
 
     public List<Patient> findPatients(PatientSearch patientSearch) {

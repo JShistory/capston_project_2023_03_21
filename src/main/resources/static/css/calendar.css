@@ -138,6 +138,7 @@ body {
     stroke-linecap: round;
 }
 
+
 .card svg circle:last-of-type {
     stroke-dasharray: 625px;
     stroke-dashoffset: calc(625px - (625px * var(--percent)) / 100);
@@ -192,7 +193,7 @@ body {
 }
 
 .sec_cal .cal_wrap .day.disable {
-    color: #ddd;
+    color: #f8d7da;
 }
 
 .progress-container {

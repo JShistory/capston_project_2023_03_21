@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header" />
+<head th:replace="fragments/header :: header"/>
 <body>
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
@@ -19,30 +19,39 @@
                    placeholder="생년월일을 입력하세요">
         </div>
         <div class="row">
-            <div class="col">
-                <label th:for="wearingTime">착용한 시간(단위 시간)</label>
-                <input type="text" th:field="*{wearingTime}" class="form-control" placeholder="착용시간을 입력하세요(단위 시간)"
-                       th:class="${#fields.hasErrors('wearingTime')}? 'form-control fieldError' : 'form-control'">
-                <p th:if="${#fields.hasErrors('wearingTime')}"
-                   th:errors="*{wearingTime}">Incorrect date</p>
-            </div>
+            <!--            <div class="col">-->
+            <!--                <label th:for="wearingTime">착용한 시간(단위 시간)</label>-->
+            <!--                <input type="text" th:field="*{wearingTime}" class="form-control" placeholder="착용시간을 입력하세요(단위 시간)"-->
+            <!--                       th:class="${#fields.hasErrors('wearingTime')}? 'form-control fieldError' : 'form-control'">-->
+            <!--                <p th:if="${#fields.hasErrors('wearingTime')}"-->
+            <!--                   th:errors="*{wearingTime}">Incorrect date</p>-->
+            <!--            </div>-->
             <div class="col">
                 <label th:for="correctionTime">착용해야 하는 시간(단위 시간)</label>
-                <input type="text" th:field="*{correctionTime}" class="form-control" placeholder="착용해야 하는 시간을 입력하세요(단위 시간)"
+                <input type="text" th:field="*{correctionTime}" class="form-control"
+                       placeholder="착용해야 하는 시간을 입력하세요(단위 시간)"
                        th:class="${#fields.hasErrors('correctionTime')}? 'form-control fieldError' : 'form-control'">
                 <p th:if="${#fields.hasErrors('correctionTime')}"
                    th:errors="*{correctionTime}">Incorrect date</p>
             </div>
         </div>
-
         <div class="row">
             <div class="col">
-                <label th:for="wearingDay">착용한 날(단위 일)</label>
-                <input type="text" th:field="*{wearingDay}" class="form-control" placeholder="착용한 날을 입력하세요(단위 일)"
-                       th:class="${#fields.hasErrors('wearingDay')}? 'form-control fieldError' : 'form-control'">
-                <p th:if="${#fields.hasErrors('wearingDay')}"
-                   th:errors="*{wearingDay}">Incorrect date</p>
+                <label th:for="timeToWear">교정 시간(단위 시간)</label>
+                <input type="text" th:field="*{timeToWear}" class="form-control" placeholder="교정 시간을 입력하세요(단위 시간)"
+                       th:class="${#fields.hasErrors('timeToWear')}? 'form-control fieldError' : 'form-control'">
+                <p th:if="${#fields.hasErrors('timeToWear')}"
+                   th:errors="*{timeToWear}">Incorrect date</p>
             </div>
+        </div>
+        <div class="row">
+            <!--            <div class="col">-->
+            <!--                <label th:for="wearingDay">착용한 날(단위 일)</label>-->
+            <!--                <input type="text" th:field="*{wearingDay}" class="form-control" placeholder="착용한 날을 입력하세요(단위 일)"-->
+            <!--                       th:class="${#fields.hasErrors('wearingDay')}? 'form-control fieldError' : 'form-control'">-->
+            <!--                <p th:if="${#fields.hasErrors('wearingDay')}"-->
+            <!--                   th:errors="*{wearingDay}">Incorrect date</p>-->
+            <!--            </div>-->
             <div class="col">
                 <label th:for="correctionDay">착용해야 하는 날(단위 일)</label>
                 <input type="text" th:field="*{correctionDay}" class="form-control" placeholder="착용해야 하는 날을 입력하세요(단위 일)"
@@ -59,13 +68,15 @@
 
 
         <div class="form-check">
-            <input class="form-check-input" th:field="*{gender}" th:value="남자" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+            <input class="form-check-input" th:field="*{gender}" th:value="남자" type="radio" name="flexRadioDefault"
+                   id="flexRadioDefault1">
             <label class="form-check-label" for="flexRadioDefault1">
                 남자
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input"  type="radio" th:field="*{gender}"th:name="form" th:value="여자"  id="flexRadioDefault2" checked>
+            <input class="form-check-input" type="radio" th:field="*{gender}" th:name="form" th:value="여자"
+                   id="flexRadioDefault2" checked>
             <label class="form-check-label" for="flexRadioDefault2">
                 여자
             </label>
@@ -75,7 +86,7 @@
         <button type="submit" class="btn btn-primary">수정하기</button>
     </form>
     <br/>
-    <div th:replace="fragments/footer :: footer" />
+    <div th:replace="fragments/footer :: footer"/>
 </div> <!-- /container -->
 </body>
 

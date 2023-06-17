@@ -33,7 +33,7 @@
             <thead>
 
             <tr>
-                <th>#</th>
+
                 <th>환자정보</th>
                 <th>환자명</th>
                 <th>생년월일</th>
@@ -43,6 +43,7 @@
                 <th>착용해야 하는 시간</th>
                 <th>착용한 날</th>
                 <th>착용해야 하는 날</th>
+                <th>교정 시간</th>
 
                 <th>메뉴</th>
                 <th></th>
@@ -53,7 +54,7 @@
 
             <tr th:each="patient : ${patients}">
 
-                <td th:text="${patient.id}"></td>
+
                 <td>
                     <a href="#" th:href="@{/patients/{id}/detail (id=${patient.id})}"
                        class="btn btn-primary" role="button">정보</a>
@@ -66,6 +67,7 @@
                 <td th:text="${patient.getCorrectionTime()}"></td>
                 <td th:text="${patient.getWearingDay()}"></td>
                 <td th:text="${patient.getCorrectionDay()}"></td>
+                <td th:text="${patient.getTimeToWear()}"></td>
 
                 <td>
                     <div class="dropdown">

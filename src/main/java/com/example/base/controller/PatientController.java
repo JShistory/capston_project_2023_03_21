@@ -3,12 +3,18 @@ package com.example.base.controller;
 import com.example.base.domain.Patient;
 import com.example.base.domain.SessionUser;
 import com.example.base.domain.WearableEquipment;
+import com.example.base.repository.PatientRepository;
 import com.example.base.repository.PatientSearch;
 import com.example.base.repository.WearableEquipmentRepository;
 import com.example.base.service.PatientService;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -26,7 +32,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class PatientController {
 
     private final PatientService patientService;
+    private final PatientRepository patientRepository;
     private final WearableEquipmentRepository wearableEquipmentRepository;
+
 
     @GetMapping("patients/new")
     public String createForm(Model model) {
@@ -47,10 +55,21 @@ public class PatientController {
         patient.setBirthday(patientForm.getBirthday());
         patient.setGender(patientForm.getGender());
         patient.setCorrectionTime(patientForm.getCorrectionTime());
-        patient.setWearingTime(patientForm.getWearingTime());
+        if (patientForm.getWearingTime() == null) {
+            patient.setWearingTime(0L);
+        } else {
+            patient.setWearingTime(patientForm.getWearingTime());
+        }
+
         patient.setCorrectionDay(patientForm.getCorrectionDay());
-        patient.setWearingDay(patientForm.getWearingDay());
+
+        if (patientForm.getWearingDay() == null) {
+            patient.setWearingDay(0L);
+        } else {
+            patient.setWearingDay(patientForm.getWearingDay());
+        }
         patient.setGuardianPhoneNumber(patientForm.getGuardianPhoneNumber());
+        patient.setTimeToWear(patientForm.getTimeToWear());
 
         patientService.createPatient(patient);
         return "redirect:/patients";
@@ -68,43 +87,107 @@ public class PatientController {
         }
 
         List<Patient> patients = patientService.findPatients(patientSearch);
+
         model.addAttribute("patients", patients);
-        System.out.println(patients);
+        List<Patient> patients1 = patientRepository.findAll();
+        if (!patients1.isEmpty()) {
+            for (Patient patient : patients1) {
+                detailForm(patient.getId(), model);
+            }
+        }
         return "patients/patientList";
     }
 
+
     @GetMapping("patients/{patientId}/delete")
-    public String deletePatients(@PathVariable("patientId") Long patientId,
-                                 Model model) {
+    public String deletePatients(@PathVariable("patientId") Long patientId) {
         patientService.delete(patientId);
         return "redirect:/patients";
     }
 
     @GetMapping("patients/{patientId}/detail")
     public String detailForm(@PathVariable("patientId") Long patientId, Model model) {
+        HashMap<Integer, Integer> timeMap = new HashMap<>();
         List<WearableEquipment> all = wearableEquipmentRepository.findAll();
+        Patient patient = patientService.findOne(patientId);
+
+        double time = 0;
+        int wearableDay = 0;
+        double timeResult = 0;
+        double dayResult = 0;
+        double day = 0;
 
         List<String> startList = new ArrayList<>();
         List<String> endList = new ArrayList<>();
-        for (WearableEquipment wearableEquipment : all) {
-            if (wearableEquipment.getPatient().getId() == patientId) {
-//                Duration duration = Duration.between(wearableEquipment.getStartTime(), wearableEquipment.getEndTime());
-                startList.add(wearableEquipment.getStartTime());
-                endList.add(wearableEquipment.getEndTime());
-            }
-        }
-
-        Patient patient = patientService.findOne(patientId);
 
         model.addAttribute("startList", startList);
         model.addAttribute("endList", endList);
-        model.addAttribute("form", patient);
+
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
+        if (!all.isEmpty()) {
+
+            LocalDateTime startTime = LocalDateTime.parse(all.get(0).getStartTime(), format);
+            LocalDateTime endTime = LocalDateTime.parse(all.get(all.size() - 1).getEndTime(), format);
+            LocalDateTime now = LocalDateTime.now();
+
+            day = ChronoUnit.DAYS.between(startTime, now) + 1;
+            System.out.println("day = " + day);
+            for (WearableEquipment wearableEquipment : all) {
+
+                if (wearableEquipment.getPatient().getId() == patientId) {
+//                Duration duration = Duration.between(wearableEquipment.getStartTime(), wearableEquipment.getEndTime());
+                    LocalDateTime start = LocalDateTime.parse(wearableEquipment.getStartTime(), format);
+                    if (start.isAfter(now)) {
+                        continue;
+                    }
+                    LocalDateTime end = LocalDateTime.parse(wearableEquipment.getEndTime(), format);
+                    startList.add(wearableEquipment.getStartTime());
+                    endList.add(wearableEquipment.getEndTime());
+                    Duration duration = Duration.between(start, end);
+
+                    timeMap.put(start.getDayOfYear(),
+                            (int) (timeMap.getOrDefault(start.getDayOfYear(), 0) + duration.getSeconds() / 60 / 60));
+                    //시간을 기준으로
+                    time += duration.getSeconds() / 60 / 60;
+                }
+
+            }
+
+            //교정시간에 80%이상 착용했다면 1일 추가
+            for (Integer data : timeMap.keySet()) {
+                if (timeMap.get(data) >= patient.getTimeToWear() * 0.8) {
+                    wearableDay += 1;
+                }
+            }
+
+            //만약에 time == 0이면, 즉 환자가 착용한 장비가 없으면
+            timeResult = Math.round((time / (day * patient.getTimeToWear())) * 100);
+            dayResult = Math.round(((double) wearableDay / patient.getCorrectionDay()) * 100);
+            System.out.println("timeResult = " + timeResult);
+
+            if(timeResult >= 100){
+                model.addAttribute("timeResult2",100);
+            }
+
+            model.addAttribute("form", patient);
+            model.addAttribute("correctDay", wearableDay);
+            model.addAttribute("correctTime", (long)day * patient.getTimeToWear());
+            model.addAttribute("day", (long)day);
+            model.addAttribute("time", (long) time);
+            model.addAttribute("timeResult", timeResult);
+            model.addAttribute("dayResult", dayResult);
+
+        }
+
+        patientService.updatePatient(patientId, patient.getPatientName(), patient.getBirthday(),
+                patient.getGender(), patient.getGuardianPhoneNumber(), patient.getCorrectionTime(), (long) time,
+                patient.getCorrectionDay(), (long) wearableDay, patient.getTimeToWear());
         return "patients/detailPatient";
     }
 
 
     @GetMapping("patients/{patientId}/edit")
-    public String updateItemForm(@PathVariable("patientId") Long patientId, Model model) {
+    public String updatePatientForm(@PathVariable("patientId") Long patientId, Model model) {
 
         Patient patient = patientService.findOne(patientId);
 
@@ -118,28 +201,23 @@ public class PatientController {
         form.setCorrectionDay(patient.getCorrectionDay());
         form.setWearingDay(patient.getWearingDay());
         form.setGender(patient.getGender());
+        form.setTimeToWear(patient.getTimeToWear());
 
         model.addAttribute("form", form);
         return "patients/updatePatientForm";
     }
 
     @PostMapping("patients/{patientId}/edit")
-    public String updateItem(@Valid @PathVariable Long patientId, @ModelAttribute("form") PatientForm form,
-                             BindingResult result) {
-//        Book book = new Book();
-//        book.setIsbn(form.getIsbn());
-//        book.setId(form.getId());
-//        book.setName(form.getName());
-//        book.setPrice(form.getPrice());
-//        book.setStockQuantity(form.getStockQuantity());
-//        book.setAuthor(form.getAuthor());
-//        book.setIsbn(form.getIsbn());
+    public String updatePatient(@Valid @PathVariable Long patientId, @ModelAttribute("form") PatientForm form,
+                                BindingResult result) {
+
         if (result.hasErrors()) {
             return "patients/updatePatientForm";
         }
         patientService.updatePatient(patientId, form.getName(), form.getBirthday(), form.getGender(),
                 form.getGuardianPhoneNumber(),
-                form.getCorrectionTime(), form.getWearingTime(), form.getCorrectionDay(), form.getWearingDay());
+                form.getCorrectionTime(), form.getWearingTime(), form.getCorrectionDay(), form.getWearingDay(),
+                form.getTimeToWear());
         return "redirect:/patients";
     }
 
@@ -156,7 +234,6 @@ public class PatientController {
                 endList.add(wearableEquipment.getEndTime());
             }
         }
-
 
         model.addAttribute("startList", startList);
         model.addAttribute("endList", endList);
