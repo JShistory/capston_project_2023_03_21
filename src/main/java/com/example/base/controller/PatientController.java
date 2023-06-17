@@ -134,15 +134,14 @@ public class PatientController {
         if (!all.isEmpty()) {
 
             LocalDateTime startTime = LocalDateTime.parse(all.get(0).getStartTime(), format);
-            LocalDateTime endTime = LocalDateTime.parse(all.get(all.size() - 1).getEndTime(), format);
             LocalDateTime now = LocalDateTime.now();
 
             correctDay = ChronoUnit.DAYS.between(startTime, now) + 1;
+            correctTime = patient.getTimeToWear() * correctDay;
 
             for (WearableEquipment wearableEquipment : all) {
 
                 if (wearableEquipment.getPatient().getId() == patientId) {
-//                Duration duration = Duration.between(wearableEquipment.getStartTime(), wearableEquipment.getEndTime());
                     LocalDateTime start = LocalDateTime.parse(wearableEquipment.getStartTime(), format);
                     if (start.isAfter(now)) {
                         continue;
@@ -172,11 +171,10 @@ public class PatientController {
                 model.addAttribute("correctTime", 0);
                 model.addAttribute("correctDay", 0);
             } else {
-                model.addAttribute("correctTime", (long) correctDay * patient.getTimeToWear());
+                model.addAttribute("correctTime", (long) correctTime);
                 model.addAttribute("correctDay", (long) correctDay);
 
             }
-            correctTime = patient.getTimeToWear() * correctDay;
 
             timeResult = Math.round((wearableTime / correctTime) * 100);
             dayResult = Math.round(((double) wearableDay / patient.getCorrectionDay()) * 100);
