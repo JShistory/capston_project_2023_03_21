@@ -62,7 +62,7 @@ function calendarInit() {
         listIndex = find_month_index(start_list, currentYear, currentMonth + 1);
         for (let i = 1; i <= nextDate; i++) {
             calendar.innerHTML = calendar.innerHTML + '<div class="day current" ' +
-                'data-date=' + currentYear + '.' + (currentMonth + 1) + '.' + i + '>' + i + progressBar(i) + '</div>'
+                'data-date=' + currentYear + '.' + (currentMonth + 1) + '.' + i + '>' + i + progressBar(currentYear, currentMonth + 1, i) + '</div>'
         }
 
         // 다음달
@@ -141,9 +141,14 @@ function checkIndex(index) {
     return true;
 }
 
+function checkDate(y, m, d, index) {
+    if (y != subYear(start_list.item(index).innerHTML) || m != subMonth(start_list.item(index).innerHTML) || d != subDate(start_list.item(index).innerHTML)) return false;
+    return true;
+}
 
-function progressBar(currDate) {
-    if (!checkIndex(listIndex) || currDate != subDate(start_list.item(listIndex).innerHTML)) return '';
+
+function progressBar(currY, currM, currDate) {
+    if (!checkIndex(listIndex) || !checkDate(currY, currM, currDate, listIndex)) return '';
     let color_code;
     let textColor = "color:";
     let backgroundColor = "background: ";
@@ -179,7 +184,7 @@ function progressBar(currDate) {
 
     function calculate_hour(start, end, currDate){
         let sumHour = 0;
-        for (let j = listIndex; j < start.length && currDate == subDate(start.item(j).innerHTML); j++) {
+        for (let j = listIndex; j < start.length && checkDate(currY, currM, currDate, j); j++) {
             let h = subHour(end.item(j).innerHTML) - subHour(start.item(j).innerHTML);
             values.push(h);
             sumHour += h;
@@ -218,14 +223,14 @@ function drawChart() {
     for (let i = 1; i <= date; i++){
         let startHour = 0;
         let endHour = 0;
-        if (checkIndex(index) && i == subDate(start_list.item(index).innerHTML)) {
+        if (checkIndex(index) && checkDate(currentYear, currentMonth + 1, i, index)) {
             startHour = subHour(start_list.item(index).innerHTML);
             endHour = subHour(end_list.item(index).innerHTML);
             index++;
 
         }
         dataTable.addRows([[i+'일', new Date(0,0,0,startHour,0,0), new Date(0,0,0,endHour,0,0)]]);
-        if (checkIndex(index) && i == subDate(start_list.item(index).innerHTML)) i--;
+        if (checkIndex(index) && checkDate(currentYear, currentMonth + 1, i, index)) i--;
         if (i == date) dataTable.addRows([[i+'일', new Date(0,0,0,23,0,0), new Date(0,0,0,23,0,0)]]);
     }
 
