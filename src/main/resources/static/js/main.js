@@ -231,7 +231,7 @@ function drawChart() {
 
     var options = {
         timeline: { singleColor: '#5F7FFB' },
-        height: 397,
+        height: 297,
         hAxis: {
             minValue: new Date(0, 0, 0, 1),
             maxValue: new Date(0, 0, 0, 23),
@@ -240,4 +240,3 @@ function drawChart() {
     };
     chart.draw(dataTable, options);
 }
-

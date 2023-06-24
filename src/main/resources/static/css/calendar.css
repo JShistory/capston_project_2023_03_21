@@ -1,4 +1,3 @@
-
 /* section calendar */
 
 .sec_cal {
@@ -177,7 +176,7 @@ body {
 .sec_cal .cal_wrap .dates {
     display: flex;
     flex-flow: wrap;
-    height: 350px;
+    height: 400px;
 }
 .day {
     padding-top: 5px;
@@ -226,17 +225,4 @@ body {
     text-align: center;
     top: 50%;
     position: absolute;
-}
-.example::-webkit-scrollbar {
-    width: 10px;  /* 스크롤바의 너비 */
-}
-
-.example::-webkit-scrollbar-thumb {
-    height: 30%; /* 스크롤바의 길이 */
-    background: rgba(255, 255, 255, 1); /* 스크롤바의 색상 */
-    border-radius: 10px;
-}
-
-.example::-webkit-scrollbar-track {
-    background: rgba(33, 122, 244, 1);  /*스크롤바 뒷 배경 색상*/
 }
