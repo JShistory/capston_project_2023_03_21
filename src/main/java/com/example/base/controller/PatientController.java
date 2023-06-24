@@ -90,12 +90,7 @@ public class PatientController {
         List<Patient> patients = patientService.findPatients(patientSearch);
 
         model.addAttribute("patients", patients);
-        List<Patient> patients1 = patientRepository.findAll();
-        if (!patients1.isEmpty()) {
-            for (Patient patient : patients1) {
-                detailForm(patient.getId(), model);
-            }
-        }
+
         return "patients/patientList";
     }
 
@@ -112,6 +107,10 @@ public class PatientController {
         List<WearableEquipment> all = wearableEquipmentRepository.findAll();
         Patient patient = patientService.findOne(patientId);
 
+        List<WearableEquipment> wearableEquipment1 = patient.getWearableEquipment();
+
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
+
         //착용한 시간
         double wearableTime = 0;
         //착용한 날
@@ -121,11 +120,20 @@ public class PatientController {
         //착용 한 날 계산
         double dayResult = 0;
         //착용 해야 하는 날
-        double correctDay = 0;
+        double correctDay = patient.getCorrectionDay();
         //착용 해야 하는 시간
-        double correctTime = 0;
+        double correctTime = patient.getCorrectionTime();
         //환자가 실제 착용한 시간
         double wearableTimeAmount = 0;
+
+        LocalDateTime now = LocalDateTime.now();
+
+        if (!wearableEquipment1.isEmpty()) {
+            LocalDateTime startTime = LocalDateTime.parse(wearableEquipment1.get(0).getStartTime(), format);
+
+            correctDay = ChronoUnit.DAYS.between(startTime, now) + 1;
+            correctTime = patient.getTimeToWear() * correctDay;
+        }
 
         List<String> startList = new ArrayList<>();
         List<String> endList = new ArrayList<>();
@@ -133,18 +141,12 @@ public class PatientController {
         model.addAttribute("startList", startList);
         model.addAttribute("endList", endList);
 
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
         if (!all.isEmpty()) {
-
-            LocalDateTime startTime = LocalDateTime.parse(all.get(0).getStartTime(), format);
-            LocalDateTime now = LocalDateTime.now();
-
-            correctDay = ChronoUnit.DAYS.between(startTime, now) + 1;
-            correctTime = patient.getTimeToWear() * correctDay;
 
             for (WearableEquipment wearableEquipment : all) {
 
                 if (wearableEquipment.getPatient().getId() == patientId) {
+
                     LocalDateTime start = LocalDateTime.parse(wearableEquipment.getStartTime(), format);
                     if (start.isAfter(now)) {
                         continue;
@@ -164,44 +166,38 @@ public class PatientController {
 
             }
 
-
-
             //교정시간에 80%이상 착용했다면 1일 추가
             //교정시간에 80%이상
             for (Integer data : timeMap.keySet()) {
                 if (timeMap.get(data) >= patient.getTimeToWear() * PATIENT_PERCENT) {
                     wearableDay += 1;
                 }
-                if(timeMap.get(data) > patient.getTimeToWear()){
+                if (timeMap.get(data) > patient.getTimeToWear()) {
                     wearableTime += patient.getTimeToWear();
-                }
-                else{
+                } else {
                     wearableTime += timeMap.get(data);
                 }
             }
 
-            //만약에 time == 0이면, 즉 환자가 착용한 장비가 없으면
-            if (wearableTime == 0) {
-                model.addAttribute("correctTime", 0);
-                model.addAttribute("correctDay", 0);
-            } else {
-                model.addAttribute("correctTime", (long) correctTime);
-                model.addAttribute("correctDay", (long) correctDay);
-
-            }
+            model.addAttribute("correctTime", (long) correctTime);
+            model.addAttribute("correctDay", (long) correctDay);
 
             timeResult = Math.round((wearableTime / correctTime) * 100);
             dayResult = Math.round(((double) wearableDay / correctDay) * 100);
-
-            model.addAttribute("form", patient);
             model.addAttribute("wearableDay", wearableDay);
             model.addAttribute("wearableTime", (long) wearableTime);
             model.addAttribute("timeResult", timeResult);
             model.addAttribute("dayResult", dayResult);
 
-
+        } else {
+            model.addAttribute("correctTime", (long) correctTime);
+            model.addAttribute("correctDay", (long) correctDay);
+            model.addAttribute("wearableDay", 0);
+            model.addAttribute("wearableTime", 0);
+            model.addAttribute("timeResult", 0);
+            model.addAttribute("dayResult", 0);
         }
-
+        model.addAttribute("form", patient);
         patientService.updatePatient(patientId, patient.getPatientName(), patient.getBirthday(),
                 patient.getGender(), patient.getGuardianPhoneNumber(), (long) correctTime, (long) wearableTime,
                 (long) correctDay, (long) wearableDay, patient.getTimeToWear());
