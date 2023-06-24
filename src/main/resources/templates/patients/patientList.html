@@ -10,6 +10,9 @@
 <link rel="stylesheet" type="text/css" href="/css/bootstrap-reboot.css">
 
 <body>
+<style>
+
+</style>
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
     <div>
@@ -42,59 +45,40 @@
                 <th>성별</th>
 
 
-                <th>메뉴</th>
                 <th></th>
             </tr>
 
             </thead>
             <tbody>
 
-            <tr th:each="patient : ${patients}" th:onclick="redirectToDetail(${patient.id})" class="clickable-row">
-                <td>
-                    <a href="#" th:href="@{/patients/{id}/detail(id=${patient.id})}">
-                        <span th:text="${patient.getPatientName()}"></span>
-                    </a>
-                </td>
-                <td>
-                    <a href="#" th:href="@{/patients/{id}/detail(id=${patient.id})}">
-                        <span th:text="${patient.birthday}"></span>
-                    </a>
-                </td>
-                <td>
-                    <a href="#" th:href="@{/patients/{id}/detail(id=${patient.id})}">
-                        <span th:text="${patient.getGuardianPhoneNumber()}"></span>
-                    </a>
-                </td>
-                <td>
-                    <a href="#" th:href="@{/patients/{id}/detail(id=${patient.id})}">
-                        <span th:text="${patient.getGender()}"></span>
-                    </a>
-                </td>
 
+            <div class="container1" th:each="patient : ${patients}">
+                <tr href="#" th:onclick="|location.href='@{/patients/{id}/detail(id=${patient.id})}'|";>
+                    <td th:text="${patient.getPatientName()}"></td>
+                    <td th:text="${patient.birthday}"></td>
+                    <td th:text="${patient.getGuardianPhoneNumber()}"></td>
+                    <td th:text="${patient.getGender()}"></td>
+                    <td>
+                        <div class="dropdown" style="float:right">
+                            <button class="btn btn-secondary dropdown-toggle" style="background-color: #3c6ffa"
+                                    type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                    onclick="event.stopPropagation();">
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" href="#" onclick="event.stopPropagation();"
+                                       th:href="@{/patients/{id}/edit (id=${patient.id})}">수정하기</a>
+                                </li>
+                                <li><a class="dropdown-item" href="#" onclick="event.stopPropagation();"
+                                       th:href="@{/patients/{id}/delete (id=${patient.id})}">삭제하기</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
 
-                <td>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" style="background-color: #3c6ffa"
-                                type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                            ⋮
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="#"
-                                   th:href="@{/patients/{id}/edit (id=${patient.id})}">수정하기</a>
-                            </li>
-                            <li><a class="dropdown-item" href="#"
-                                   th:href="@{/patients/{id}/delete (id=${patient.id})}">삭제하기</a>
-                            </li>
-                        </ul>
-                    </div>
-                </td>
+            </div>
 
-            </tr>
-            <!--                <td>-->
-            <!--                    <a th:if="${item.status.name() == 'ORDER'}" href="#"-->
-            <!--                       th:href="'javascript:cancel('+${item.id}+')'"-->
-            <!--                       class="btn btn-danger">CANCEL</a>-->
-            <!--                </td>-->
             </tbody>
         </table>
     </div>
@@ -107,6 +91,7 @@
 </body>
 
 <script>
+
     function cancel(id) {
         var form = document.createElement("form");
         form.setAttribute("method", "post");
@@ -122,8 +107,6 @@
         }
     }
 
-    function redirectToDetail(id) {
-        window.location.href = '/patients/' + id + '/detail';
-    }
+
 </script>
 </html>
