@@ -66,7 +66,7 @@ function calendarInit() {
         }
 
         // 다음달
-        for (let i = 1; i <= (7 - nextDay == 7 ? 0 : 7 - nextDay) + 6; i++) {
+        for (let i = 1; i <= (7 - nextDay == 1 ? 0 : 6 - nextDay); i++) {
             calendar.innerHTML = calendar.innerHTML + '<div class="day next disable" data-date=' + i + '>' + i + '</div>'
         }
 
@@ -236,7 +236,7 @@ function drawChart() {
 
     var options = {
         timeline: { singleColor: '#5F7FFB' },
-        height: 297,
+        height: 360,
         hAxis: {
             minValue: new Date(0, 0, 0, 1),
             maxValue: new Date(0, 0, 0, 23),

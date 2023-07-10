@@ -63,7 +63,7 @@
 }
 
 .sec_cal .cal_wrap {
-    padding-top: 10px;
+    padding-top: 15px;
     position: relative;
     margin: 0 auto;
 }
@@ -71,7 +71,7 @@
 .sec_cal .cal_wrap .days {
     display: flex;
     margin-bottom: 1px;
-    padding-bottom: 10px;
+    padding-bottom: 15px;
     border-bottom: 1px solid #ddd;
 }
 
@@ -85,7 +85,7 @@
     justify-content: center;
     width: calc(100% / 7);
     color: #999;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
     text-align: center;
     border-radius:5px;
@@ -104,6 +104,63 @@ body {
     justify-content: center;
 }
 
+.current.select_day {outline: 3px solid #ddd;}
+
+.sec_cal .cal_wrap .dates {
+    display: flex;
+    flex-flow: wrap;
+    height: 430px;
+}
+.day {
+    padding-top: 5px;
+    position: relative;
+}
+
+.sec_cal .cal_wrap .day:nth-child(7n) {
+    color: #3c6ffa;
+}
+
+.sec_cal .cal_wrap .day:nth-child(7n-6) {
+    color: #ed2a61;
+}
+
+.sec_cal .cal_wrap .day.disable {
+    color: #f8d7da;
+}
+
+.progress-container {
+    margin: 0px;
+    width: 95%;
+    height: 20%;
+    top: 77%;
+    border-radius: 3px;
+    position: absolute;
+    overflow: clip;
+}
+.progress-bar {
+    height: 100%;
+    float:left;
+    display: inline-block;
+    font-size: 0;
+    background-size: cover;
+}
+.split-bar {
+    width: 5%;
+    float:left;
+    display: inline-block;
+    height: 100%;
+    font-size: 1px;
+}
+.percent-text {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    top: 50%;
+    position: absolute;
+}
+
+/* pie graph */
 .card {
     display: flex;
     align-items: center;
@@ -111,7 +168,7 @@ body {
     flex-direction: column;
     background-color: #ffffff;
     margin: 0px;
-    width: 230px;
+    width: 240px;
     height: 280px;
     border-radius: 20px;
     box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.2);
@@ -170,59 +227,4 @@ body {
 
 .card:nth-child(2) svg circle:last-of-type {
     stroke: #F5D0A9;
-}
-.current.select_day {outline: 3px solid #ddd;}
-
-.sec_cal .cal_wrap .dates {
-    display: flex;
-    flex-flow: wrap;
-    height: 400px;
-}
-.day {
-    padding-top: 5px;
-    position: relative;
-}
-
-.sec_cal .cal_wrap .day:nth-child(7n) {
-    color: #3c6ffa;
-}
-
-.sec_cal .cal_wrap .day:nth-child(7n-6) {
-    color: #ed2a61;
-}
-
-.sec_cal .cal_wrap .day.disable {
-    color: #f8d7da;
-}
-
-.progress-container {
-    margin: 0px;
-    width: 90%;
-    height: 20%;
-    top: 77%;
-    border-radius: 3px;
-    position: absolute;
-    overflow: clip;
-}
-.progress-bar {
-    height: 100%;
-    float:left;
-    display: inline-block;
-    font-size: 0;
-    background-size: cover;
-}
-.split-bar {
-    width: 5%;
-    float:left;
-    display: inline-block;
-    height: 100%;
-    font-size: 1px;
-}
-.percent-text {
-    display: block;
-    font-size: 12px;
-    font-weight: 600;
-    text-align: center;
-    top: 50%;
-    position: absolute;
 }
