@@ -34,7 +34,6 @@
 
 - FRAMEWORK VERSION: Spring Boot 2.4.1
 - VERSION: java 11
-- DB: H2 database
 
 # 📝프로토타입 
   - https://cloud.protopie.io/p/1fca4840995e91d69bb7a925
