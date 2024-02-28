@@ -38,6 +38,10 @@
 # 📝프로토타입 
   - https://cloud.protopie.io/p/1fca4840995e91d69bb7a925
 
+# 📁ERD
+![image](https://github.com/JShistory/capston_project_2023_03_21/assets/98608723/ed10cb7e-d656-442f-8c04-339427920648)
+
+
 # 📌주요기능
 ## 소셜 로그인
 1. 카카오
